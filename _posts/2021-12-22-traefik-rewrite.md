@@ -84,3 +84,16 @@ spec:
       - /admin
 ```
 上面的示例就是先配置了一个 ingress route ，匹配到example.org/admin 转发给admin-svc 同时加入了一个中间的处理器admin-stripprefix. 这个处理器西面进行了中间件的定义 采用stripPrefix 对/admin的前缀进行去除。这样就相当于example.org/admin->admin-svc/了。 
+
+redirect 
+```
+# Redirect with domain replacement
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-redirectregex
+spec:
+  redirectRegex:
+    regex: ^http://localhost/(.*)
+    replacement: http://mydomain/${1}
+```
