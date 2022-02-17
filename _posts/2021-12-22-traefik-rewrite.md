@@ -4,7 +4,7 @@ title:  "traefik-rewrit"
 date:   2021.12.22
 categories: traefik-rewrit
 ---
-今天在公司有前后端项目需要上线，需要把/api开头的路径转发给后端，同时去掉api 。类似于/api/login->后端/login 的rewrite .参考以前的文件 对traefik进行ingress 注解，发现无线。大体如下：
+今天在公司有前后端项目需要上线，需要把/api开头的路径转发给后端，同时去掉api 。类似于/api/login->后端/login 的rewrite .参考以前的文件 对traefik进行ingress 注解，发现无效。大体如下：
 ```
 apiVersion: networking.k8s.io/v1
 kind: Ingress
