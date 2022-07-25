@@ -74,6 +74,8 @@ spec:
       middlewares:
         - name: admin-stripprefix
 ---
+
+
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
@@ -115,4 +117,27 @@ spec:
           port: admin
       middlewares:
         - name: test-redirectregex
+```
+同域名下的复杂规则重定向:可以使用ReplacePathRegex 这种就是通过正则替换来实现重定向
+```
+# Replace path with regex
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-replacepathregex
+spec:
+  replacePathRegex:
+    regex: ^/foo/(.*)
+    replacement: /bar/$1
+```
+还能通过正则来匹配进行前缀删除
+```
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-stripprefixregex
+spec:
+  stripPrefixRegex:
+    regex:
+      - "/foo/[a-z0-9]+/[0-9]+/"
 ```
