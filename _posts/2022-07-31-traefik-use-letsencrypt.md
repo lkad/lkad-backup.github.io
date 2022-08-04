@@ -129,4 +129,31 @@ c76afc252eaa   code-server_default   bridge    local
 0133065ad5f6   seafile_seafile-net   bridge    local
 25e4b1d7408f   traefik_default       bridge    local
 ```
-上面可以看到 默认的traefik的网络为traefik_default
+上面可以看到 默认的traefik的网络为traefik_default 那么记得将需要的容器配置的时候连接到这个网络即可
+```
+version: "3"
+
+services:
+  code-server:
+    image: codeserver-lk
+    ports:
+      - "19080:8080"
+    volumes:
+      - "/home/loony/.config/code-server:/home/coder/.config/code-server"
+        #      - "$(id -u):$(id -g)" 
+      - "/home/loony/code:/home/coder/project"
+    environment:
+      - "DOCKER_USER=$USER"
+    restart: always
+    user: "1000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.codeserver.rule=Host(`code.docker.lkad.net`)"
+      - "traefik.http.routers.codeserver.entrypoints=websecure"
+      - "traefik.http.routers.codeserver.tls.certresolver=myresolver"
+    networks:
+      - traefik_default
+networks:
+  traefik_default:
+    external: true
+```
